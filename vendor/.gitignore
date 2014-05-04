@@ -1,0 +1,17 @@
+!.gitignore
+.composer
+bin
+bgallagher
+bjyoungblood
+blanchonvincent
+composer
+doctrine
+hybridauth
+socalnick
+symfony
+wisembly
+zendframework
+phpunit
+ZF2
+zf-commons
+autoload.php

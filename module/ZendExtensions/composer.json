@@ -1,0 +1,6 @@
+{
+    "require": {
+        "zendframework/zendframework": "2.2.*",
+        "phly/phly-restfully": "2.2.*"
+    }
+}
