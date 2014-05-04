@@ -1,0 +1,28 @@
+<?php echo $this->doctype(); ?>
+
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle($this->translate('ExampleWeb'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
+
+        <!-- Styles -->
+        <?php
+            echo $this->headLink()
+                ->prependStylesheet('http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,600,400italic,600italic,800,800italic,700,700italic&subset=latin,latin-ext,cyrillic-ext');
+        ?>
+
+        <!-- Scripts -->
+        <?php
+            echo $this->headScript()
+                ->prependFile('http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
+        ?>
+
+    <?= $this->partial('layout-landing/_partials/analytics.phtml'); ?>
+ 
+    </head>
+    <body>
+        <?php echo $this->content; ?>
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>

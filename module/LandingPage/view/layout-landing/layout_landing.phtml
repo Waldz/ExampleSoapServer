@@ -1,0 +1,33 @@
+<?php echo $this->doctype(); ?>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="icon" type="image/gif" href="<?= $this->basePath(); ?>/img/favicon.gif">
+        <!--[if lt IE 9]>
+        <script src="<?= $this->basePath() ?>/js/html5shiv.js"></script>
+        <![endif]-->        
+        <?php echo $this->headTitle($this->translate('ExampleWeb'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
+    
+        <!-- Styles -->
+        <?php
+            echo $this->headLink()
+                ->prependStylesheet('http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,600,400italic,600italic,800,800italic,700,700italic&subset=latin,latin-ext,cyrillic-ext');
+        ?>
+
+        <!-- Scripts -->
+        <?php
+            echo $this->headScript()
+                ->prependFile($this->basePath() . '/js/jquery.html5-placeholder-shim.js')
+                ->prependFile('http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
+        ?>
+    </head>
+    <body>
+        <?= $this->partial('layout-landing/_partials/header.phtml'); ?>
+        <?php echo $this->content; ?>
+        <?= $this->partial('layout-landing/_partials/footer.phtml'); ?>
+
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>
