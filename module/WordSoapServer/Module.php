@@ -9,8 +9,7 @@
 
 namespace WordSoapServer;
 
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
+use Zend\ServiceManager\ServiceManager;
 
 class Module
 {
@@ -29,6 +28,18 @@ class Module
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ),
+            ),
+        );
+    }
+
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'WordSoapServer_service_WordService' => function (ServiceManager $sm) {
+                    $service = new \WordSoapServer\Service\WordService();
+                    return $service;
+                },
             ),
         );
     }

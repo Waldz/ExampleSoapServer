@@ -35,8 +35,10 @@ class WordController extends AbstractActionController
 
             $this->_soapGenerator = new AutoDiscover();
             $this->_soapGenerator->setServiceName('WordService');
+            $this->_soapGenerator->setClass('\WordSoapServer\Service\WordService');
             $this->_soapGenerator->setUri(
-                $helperServer( $this->url()->fromRoute()) );
+                $helperServer($this->url()->fromRoute())
+            );
         }
 
         return $this->_soapGenerator;
@@ -57,6 +59,7 @@ class WordController extends AbstractActionController
     {
         if(!isset($this->_soapServer)) {
             $this->_soapServer = new Server();
+            $this->_soapServer->setClass('\WordSoapServer\Service\WordService');
         }
 
         return $this->_soapServer;
