@@ -32,6 +32,26 @@ Step 4. Import DB data
     data/schema.sql
 
 
+Virtual Host
+------------
+Step1. Notepad.exe press "Run as Administrator"
+Step2. Create fake domain in file  C:\Windows\System32\drivers\etc\hosts
+    127.0.0.1       examplesoap.localhost
+
+Step3. Add virtual host and restart Web server C:/Users/Valdas/xampp/apache/conf/httpd.conf
+    <VirtualHost *:80>
+        ServerName examplesoap.localhost
+
+        DocumentRoot "C:/Users/Valdas/workspace/ExampleSoapServer/public"
+        <Directory "C:/Users/Valdas/workspace/ExampleSoapServer/public">
+            Options Indexes FollowSymLinks Includes ExecCGI
+            AllowOverride FileInfo
+            Order allow,deny
+            Allow from All
+        </Directory>
+    </VirtualHost>
+
+
 PROD deployment
 ------------
 Step1. Install project required libraries
