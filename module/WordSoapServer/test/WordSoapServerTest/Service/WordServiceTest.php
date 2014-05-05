@@ -38,7 +38,7 @@ class WordServiceTest
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $string = $stringFlipped = '';
         for ($i = 0; $i < 10; $i++) {
-            $char = $characters[rand(0, strlen($characters))];
+            $char = $characters[rand(0, strlen($characters)-1)];
             $string = $string.$char;
             $stringFlipped = $char.$stringFlipped;
         }
@@ -53,7 +53,9 @@ class WordServiceTest
     {
         $service = new WordService();
 
-        $this->assertEquals('', $service->wordFlip(str_repeat('a', 64)));
+        $string = str_repeat(' ', 64);
+        $this->assertEquals($string, $service->wordFlip($string));
+
         $this->setExpectedException('InvalidArgumentException');
         $this->assertEquals('', $service->wordFlip(str_repeat('a', 65)));
     }
