@@ -1,0 +1,21 @@
+<?php
+
+return array(
+    'doctrine' => array(
+        'connection' => array(
+            // default connection name
+            'orm_default' => array(
+                'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'params' => array(
+                    'host'     => 'localhost',
+                    'port'     => '3306',
+                    'user'     => 'example_soap',
+                    'password' => '****',
+                    'dbname'   => 'example_soap',
+                    'collate'  => 'utf8_general_ci',
+                    'charset'  => 'utf8',
+                )
+            )
+        )
+    ),
+);

@@ -9,11 +9,15 @@
     "homepage": "http://framework.zend.com/",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.2.*"
+        "zendframework/zendframework": "2.2.*",
+        "doctrine/doctrine-module": "0.7.*",
+        "doctrine/doctrine-orm-module": "0.7.*"
     },
     "require-dev": {
         "zendframework/zftool": "dev-master",
-        "zendframework/zend-developer-tools": "dev-master"
+        "zendframework/zend-developer-tools": "dev-master",
+        "phpunit/phpunit": "*"
+
     },
     "autoload": {
         "classmap": [

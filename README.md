@@ -57,6 +57,22 @@ Automated testing
     cd module/WordSoapServer/test/ && phpunit --configuration phpunit.xml
 
 
+Using Doctrine console
+------------
+Everyday jobs:
+    # How to map entities to DB
+    http://docs.doctrine-project.org/en/2.0.x/reference/association-mapping.html
+    # Check if Entity objects are correct
+    vendor\bin\doctrine-module.bat orm:validate-schema
+
+    # Alter database by entities (all other times)
+    # Windows:
+    vendor\bin\doctrine-module.bat orm:schema-tool:update --dump-sql
+    vendor\bin\doctrine-module.bat orm:schema-tool:update --force
+    # UNIX:
+    ./vendor/bin/doctrine-module orm:schema-tool:update --dump-sql
+    ./vendor/bin/doctrine-module orm:schema-tool:update --force
+
 PROD deployment
 ------------
 Step1. Install project required libraries
