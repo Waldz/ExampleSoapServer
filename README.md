@@ -3,7 +3,7 @@ Example of Soap Server application
 
 Introduction
 ------------
-This is a simple, skeleton application using the ZF2 MVC layer and module systems.
+This is a simple SOAP server application implemented with ZF2, to show code separation patterns.
 
 
 Installation
@@ -52,6 +52,11 @@ Step3. Add virtual host and restart Web server C:/Users/Valdas/xampp/apache/conf
     </VirtualHost>
 
 
+Automated testing
+------------
+    cd module/WordSoapServer/test/ && phpunit --configuration phpunit.xml
+
+
 PROD deployment
 ------------
 Step1. Install project required libraries
@@ -59,10 +64,10 @@ Step1. Install project required libraries
     php composer.phar update
 
 Step2. Buildings paths of all classess makes project superfast :)
-# Build class map (for EACH Module):
+Step2.1 Build class map (for EACH Module):
     sudo su www-data
     php ./vendor/bin/classmap_generator.php -l ./module/YourModuleName
 
-# Build template map (for EACH Module)::
+Step2.2 Build template map (for EACH Module):
     cd module/YourModuleName
     php ../../vendor/zendframework/zendframework/bin/templatemap_generator.php -w
