@@ -1,1 +1,13 @@
-HOME PAGE
+<?= $this->translate('Test SOAP service') ?>:
+<form action="<?= $this->url() ?>" method="GET">
+    <input type="text" name="word" value="<?= $this->word ?>" />
+    <input type="submit" name="submit" value="<?= $this->translate('Flip') ?>" />
+</form>
+<pre><?= $this->wordFlipped ?></pre>
+
+<? if(isset($this->soapRequest)) { ?>
+    <?= $this->translate('Request') ?>: <pre><?= htmlentities($this->soapRequest) ?></pre>
+<? } ?>
+<? if(isset($this->soapResponse)) { ?>
+    <?= $this->translate('Response') ?>: <pre><?= htmlentities($this->soapResponse) ?></pre>
+<? } ?>
