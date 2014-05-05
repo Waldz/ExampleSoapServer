@@ -59,7 +59,7 @@ class LoggerService
         $orm = $this->getEntityManager();
 
         $requestLog = new RequestLog();
-        $requestLog->setCreateDate(new \DateTime());
+        $requestLog->setCreateTime(microtime(true));
         $requestLog->setEndpoint($endpoint);
         $requestLog->setRequest($requestXml);
 
@@ -81,11 +81,9 @@ class LoggerService
     {
         $orm = $this->getEntityManager();
 
-        $now = new \DateTime();
         $requestLog->setResponse($responseXml);
-        // TODO Calculate duration in microseconds
         $requestLog->setDuration(
-            $requestLog->getCreateDate()->diff($now)->s
+            microtime(true) - $requestLog->getCreateTime()
         );
 
         // Save node

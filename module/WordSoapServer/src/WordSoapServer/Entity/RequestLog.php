@@ -3,6 +3,7 @@
 namespace WordSoapServer\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\I18n\Validator\DateTime;
 
 /**
  * Class RequestLog is responsible for:
@@ -11,7 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @author Valdas Petrulis <petrulis.valdas@gmail.com>
  *
  * @ORM\Entity
- * @ORM\Table(name="soap_log")
+ * @ORM\Table(
+ *   name="soap_log",
+ *   indexes={
+ *      @ORM\Index(name="endpoint", columns={"endpoint"}),
+ *      @ORM\Index(name="create_time", columns={"create_time"})
+ *   }
+ * )
  */
 
 class RequestLog
@@ -27,20 +34,18 @@ class RequestLog
     protected $id;
 
     /**
-     * @var \DateTime
+     * @var float
      *
-     * @ORM\Column(nullable=false)
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="decimal", precision=15, scale=3)
      */
-    protected  $create_date;
+    protected $create_time;
 
     /**
      * @var float
      *
-     * @ORM\Column(nullable=false)
      * @ORM\Column(type="decimal", precision=10, scale=3, nullable=true)
      */
-    protected  $duration;
+    protected $duration;
 
     /**
      * @var string
@@ -65,12 +70,10 @@ class RequestLog
     
     /**
      * @param int $id
-     * @return $this
      */
     public function setId($id)
     {
         $this->id = $id;
-        return $this;
     }
 
     /**
@@ -82,13 +85,28 @@ class RequestLog
     }
 
     /**
+     * @param float $create_time
+     */
+    public function setCreateTime($create_time)
+    {
+        $this->create_time = $create_time;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCreateTime()
+    {
+        return $this->create_time;
+    }
+
+    /**
      * @param \DateTime $create_date
-     * @return $this
      */
     public function setCreateDate($create_date)
     {
-        $this->create_date = $create_date;
-        return $this;
+        $this->create_time = $create_date->getTimestamp();
+
     }
 
     /**
@@ -96,12 +114,13 @@ class RequestLog
      */
     public function getCreateDate()
     {
-        return $this->create_date;
+        $date = new \DateTime();
+        $date->setTimestamp($this->create_time);
+        return $date;
     }
 
     /**
      * @param float $duration
-     * @return $this
      */
     public function setDuration($duration)
     {
@@ -119,7 +138,6 @@ class RequestLog
 
     /**
      * @param string $endpoint
-     * @return $this
      */
     public function setEndpoint($endpoint)
     {
@@ -137,7 +155,6 @@ class RequestLog
 
     /**
      * @param string $request
-     * @return $this
      */
     public function setRequest($request)
     {
@@ -155,7 +172,6 @@ class RequestLog
 
     /**
      * @param string $response
-     * @return $this
      */
     public function setResponse($response)
     {
