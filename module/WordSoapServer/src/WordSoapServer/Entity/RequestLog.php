@@ -38,7 +38,7 @@ class RequestLog
      * @var float
      *
      * @ORM\Column(nullable=false)
-     * @ORM\Column(type="decimal", precision=10, scale=3)
+     * @ORM\Column(type="decimal", precision=10, scale=3, nullable=true)
      */
     protected  $duration;
 

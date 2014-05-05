@@ -64,6 +64,7 @@ class LoggerService
         $requestLog->setRequest($requestXml);
 
         $orm->persist($requestLog);
+        $orm->flush($requestLog);
 
         return $requestLog;
     }
@@ -73,6 +74,8 @@ class LoggerService
      *
      * @param RequestLog $requestLog Log event
      * @param string $responseXml Response XML source
+     *
+     * @return RequestLog Log event
      */
     public function requestEnd($requestLog, $responseXml)
     {
@@ -92,5 +95,7 @@ class LoggerService
             $orm->persist($requestLog);
             $orm->flush();
         }
+
+        return $requestLog;
     }
 }
