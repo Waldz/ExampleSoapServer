@@ -41,9 +41,9 @@ class Module
                     $service = new Service\WordService();
                     return $service;
                 },
-                'WordSoapServer_service_LogService' => function (ServiceManager $sm) {
+                'WordSoapServer_service_LoggerService' => function (ServiceManager $sm) {
                     /** @var EntityManager $orm */
-                    $orm = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+                    $orm = $sm->get('doctrine.entitymanager.orm_default');
 
                     $service = new Service\LoggerService($orm);
                     return $service;

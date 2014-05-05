@@ -1,6 +1,7 @@
 <?php
 namespace WordSoapServer\Controller;
 
+use WordSoapServer\Service\LoggerService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Http\Request;
 use Zend\Http\Response;
@@ -21,8 +22,11 @@ class WordController extends AbstractActionController
     /** @var AutoDiscover */
     private $_soapGenerator;
 
-    /** @var  Server */
+    /** @var Server */
     private $_soapServer;
+
+    /** @var LoggerService */
+    private $_soapLogger;
 
     /**
      * @param \Zend\Soap\AutoDiscover $soapGenerator
@@ -65,11 +69,36 @@ class WordController extends AbstractActionController
     public function getSoapServer()
     {
         if(!isset($this->_soapServer)) {
+            $helperServer = new ServerUrl();
+
             $this->_soapServer = new Server();
             $this->_soapServer->setClass('\WordSoapServer\Service\WordService');
+            $this->_soapServer->setUri(
+                $helperServer($this->url()->fromRoute())
+            );
+            $this->_soapServer->registerFaultException('\InvalidArgumentException');
         }
 
         return $this->_soapServer;
+    }
+
+    /**
+     * @param \WordSoapServer\Service\LoggerService $soapLogger
+     */
+    public function setSoapLogger($soapLogger)
+    {
+        $this->_soapLogger = $soapLogger;
+    }
+
+    /**
+     * @return \WordSoapServer\Service\LoggerService
+     */
+    public function getSoapLogger()
+    {
+        if(!isset($this->_soapLogger)) {
+            $this->_soapLogger = $this->getServiceLocator()->get('WordSoapServer_service_LoggerService');
+        }
+        return $this->_soapLogger;
     }
 
     /**
@@ -118,15 +147,28 @@ class WordController extends AbstractActionController
      */
     public function soapAction()
     {
+        /** @var Request $request */
+        $request = $this->getRequest();
         /** @var Response $response */
         $response = $this->getResponse();
+        $serviceLogger = $this->getSoapLogger();
         $server = $this->getSoapServer()
             ->setReturnResponse(true);
 
+        // Read XML request
+        $requestXml = $request->getContent();
+        $requestLog = $serviceLogger->requestStart($this->url()->fromRoute(), $requestXml);
+
+        // Handle XML request
+        $responseXml = $server->handle($requestXml);
+        if($responseXml instanceof \SoapFault) {
+            $responseXml = (string) $responseXml;
+        }
+        $requestLog = $serviceLogger->requestEnd($requestLog, $responseXml);
+
+        // Send XML response
         $response->getHeaders()->addHeaderLine('Content-Type', 'application/xml');
-        $response->setContent(
-            $server->handle()
-        );
+        $response->setContent($responseXml);
 
         return $response;
     }
