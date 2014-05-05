@@ -8,6 +8,13 @@ use Zend\Soap\AutoDiscover;
 use Zend\Soap\Server;
 use Zend\View\Helper\ServerUrl;
 
+/**
+ * Class WordController is responsible for:
+ *  - Generates WSDL document for @see WordService
+ *  - Serve HTTP requests for @see WordService
+ *
+ * @author Valdas Petrulis <petrulis.valdas@gmail.com>
+ */
 class WordController extends AbstractActionController
 {
 

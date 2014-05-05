@@ -1,0 +1,96 @@
+<?php
+
+namespace WordSoapServer\Service;
+use Doctrine\ORM\EntityManager;
+use WordSoapServer\Entity\RequestLog;
+
+/**
+ * Class LoggerService is responsible for:
+ *  - Logs SOAP requests to DB
+ *
+ * @author Valdas Petrulis <petrulis.valdas@gmail.com>
+ */
+class LoggerService
+{
+
+    /**
+     * @var EntityManager
+     */
+    private $_entityManager;
+
+    /**
+     * Constructor with essential data
+     *
+     * @param EntityManager $entityManager
+     */
+    public function __construct($entityManager)
+    {
+        $this->_entityManager = $entityManager;
+    }
+
+    /**
+     * @param EntityManager $entityManager
+     * @return $this
+     */
+    public function setEntityManager($entityManager)
+    {
+        $this->_entityManager = $entityManager;
+        return $this;
+    }
+
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager()
+    {
+        return $this->_entityManager;
+    }
+
+    /**
+     * Inits log event for SOAP request
+     *
+     * @param string $endpoint ULL of endpoint which was requested e.g. soap/word
+     * @param string $requestXml Request XML source
+     *
+     * @return RequestLog Log event
+     */
+    public function requestStart($endpoint, $requestXml)
+    {
+        $orm = $this->getEntityManager();
+
+        $requestLog = new RequestLog();
+        $requestLog->setCreateDate(new \DateTime());
+        $requestLog->setEndpoint($endpoint);
+        $requestLog->setRequest($requestXml);
+
+        $orm->persist($requestLog);
+
+        return $requestLog;
+    }
+
+    /**
+     * Ands response data to log events
+     *
+     * @param RequestLog $requestLog Log event
+     * @param string $responseXml Response XML source
+     */
+    public function requestEnd($requestLog, $responseXml)
+    {
+        $orm = $this->getEntityManager();
+
+        $now = new \DateTime();
+        $requestLog->setResponse($responseXml);
+        // TODO Calculate duration in microseconds
+        $requestLog->setDuration(
+            $requestLog->getCreateDate()->diff($now)->s
+        );
+
+        // Save node
+        if($requestLog->getId()>0) {
+            $orm->flush();
+        } else {
+            $orm->persist($requestLog);
+            $orm->flush();
+        }
+    }
+}

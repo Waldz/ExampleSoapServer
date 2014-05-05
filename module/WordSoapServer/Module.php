@@ -9,6 +9,7 @@
 
 namespace WordSoapServer;
 
+use Doctrine\ORM\EntityManager;
 use Zend\ServiceManager\ServiceManager;
 
 class Module
@@ -37,7 +38,14 @@ class Module
         return array(
             'factories' => array(
                 'WordSoapServer_service_WordService' => function (ServiceManager $sm) {
-                    $service = new \WordSoapServer\Service\WordService();
+                    $service = new Service\WordService();
+                    return $service;
+                },
+                'WordSoapServer_service_LogService' => function (ServiceManager $sm) {
+                    /** @var EntityManager $orm */
+                    $orm = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+
+                    $service = new Service\LoggerService($orm);
                     return $service;
                 },
             ),

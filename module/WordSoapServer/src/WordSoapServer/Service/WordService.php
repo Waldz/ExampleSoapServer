@@ -7,7 +7,6 @@ namespace WordSoapServer\Service;
  *  - Knows how to reverse given string
  *
  * @author Valdas Petrulis <petrulis.valdas@gmail.com>
- * @package WordSoapServer
  */
 class WordService
 {
@@ -16,7 +15,9 @@ class WordService
      * Flips given word symbols in reverse order
      *
      * @param string $string String to reverse (max 64 characters)
+     *
      * @return string Reversed string
+     * @throws \InvalidArgumentException
      */
     public function wordFlip($string)
     {
