@@ -1,6 +1,6 @@
 {
-    "name": "rabbitize/web",
-    "description": "Example Web Application",
+    "name": "rabbitize/example-soap",
+    "description": "Example SOAP server application",
     "license": "BSD-3-Clause",
     "keywords": [
         "framework",
